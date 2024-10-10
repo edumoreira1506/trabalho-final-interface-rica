@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.ThumbDownOffAlt
+import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -168,6 +170,27 @@ private fun List(
             ListItem(
                 modifier = Modifier.clickable { onContaPressed(conta) },
                 headlineContent = { Text(descricao) },
+                leadingContent = {
+                    val isPayed = conta.paga
+                    val isDebit = conta.tipo == TipoContaEnum.DESPESA
+                    Icon(
+                        imageVector = if (isPayed) {
+                            Icons.Filled.ThumbUp
+                        } else {
+                            Icons.Filled.ThumbDownOffAlt
+                        },
+                        contentDescription = if (isPayed) {
+                            stringResource(R.string.payed)
+                        } else {
+                            stringResource(R.string.not_payed)
+                        },
+                        tint = if (isDebit) {
+                            Color(0xFFCF5355)
+                        } else {
+                            Color(0xFF00984E)
+                        }
+                    )
+                },
             )
         }
     }
