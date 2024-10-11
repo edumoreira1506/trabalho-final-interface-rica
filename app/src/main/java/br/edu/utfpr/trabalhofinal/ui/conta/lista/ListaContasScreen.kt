@@ -251,6 +251,14 @@ fun Totalizador(
     valor: BigDecimal,
     textColor: Color
 ) {
+    val valueColor = if (valor == BigDecimal(0)) {
+        textColor
+    } else if (valor < BigDecimal(0)) {
+        Color(0xFFCF5355)
+    } else {
+        Color(0xFF00984E)
+    }
+
     Row(
         modifier = modifier
             .fillMaxWidth(),
@@ -263,12 +271,11 @@ fun Totalizador(
             text = titulo,
             color = textColor
         )
-        Spacer(Modifier.size(10.dp))
         Text(
             modifier = Modifier.width(100.dp),
             textAlign = TextAlign.End,
             text = valor.formatar(),
-            color = textColor
+            color = valueColor
         )
         Spacer(Modifier.size(20.dp))
     }
