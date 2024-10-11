@@ -166,13 +166,30 @@ private fun List(
 ) {
     LazyColumn(modifier = modifier) {
         items(contas) { conta ->
-            val descricao = "${conta.data.formatar()} - ${conta.descricao}"
+            val isDebit = conta.tipo == TipoContaEnum.DESPESA
+            val itemColor = if (isDebit) {
+                Color(0xFFCF5355)
+            } else {
+                Color(0xFF00984E)
+            }
             ListItem(
                 modifier = Modifier.clickable { onContaPressed(conta) },
-                headlineContent = { Text(descricao) },
+                headlineContent = {
+                    Column {
+                        Text(conta.descricao)
+
+                        Row {
+                            Text(conta.data.formatar())
+                            Text(if (isDebit) " -" else " ")
+                            Text(
+                                text = conta.valor.formatar(),
+                                color = itemColor
+                            )
+                        }
+                    }
+                },
                 leadingContent = {
                     val isPayed = conta.paga
-                    val isDebit = conta.tipo == TipoContaEnum.DESPESA
                     Icon(
                         imageVector = if (isPayed) {
                             Icons.Filled.ThumbUp
@@ -184,11 +201,7 @@ private fun List(
                         } else {
                             stringResource(R.string.not_payed)
                         },
-                        tint = if (isDebit) {
-                            Color(0xFFCF5355)
-                        } else {
-                            Color(0xFF00984E)
-                        }
+                        tint = itemColor
                     )
                 },
             )
