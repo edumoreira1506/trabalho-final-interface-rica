@@ -178,11 +178,13 @@ private fun List(
                     Column {
                         Text(conta.descricao)
 
-                        Row {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
                             Text(conta.data.formatar())
-                            Text(if (isDebit) " -" else " ")
                             Text(
-                                text = conta.valor.formatar(),
+                                text = if (isDebit) "-${conta.valor.formatar()}" else conta.valor.formatar(),
                                 color = itemColor
                             )
                         }
