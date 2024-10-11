@@ -1,6 +1,7 @@
 package br.edu.utfpr.trabalhofinal.ui.conta.form
 import android.icu.util.LocaleData
 import br.edu.utfpr.trabalhofinal.data.Conta
+import br.edu.utfpr.trabalhofinal.data.TipoContaEnum
 import br.edu.utfpr.trabalhofinal.utils.formatarAmericano
 import java.time.LocalDate
 
@@ -27,7 +28,9 @@ data class FormularioContaState(
     ),
     val valor: CampoFormulario = CampoFormulario(),
     val paga: CampoFormulario = CampoFormulario(),
-    val tipo: CampoFormulario = CampoFormulario()
+    val tipo: CampoFormulario = CampoFormulario(
+        valor = TipoContaEnum.DESPESA.name
+    )
 ) {
     val contaNova get(): Boolean = idConta <= 0
     val formularioValido get(): Boolean = descricao.valido &&

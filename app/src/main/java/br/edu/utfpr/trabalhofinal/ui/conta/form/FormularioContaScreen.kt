@@ -30,6 +30,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -56,6 +57,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import br.edu.utfpr.trabalhofinal.R
+import br.edu.utfpr.trabalhofinal.data.TipoContaEnum
 import br.edu.utfpr.trabalhofinal.ui.theme.TrabalhoFinalTheme
 import br.edu.utfpr.trabalhofinal.ui.utils.composables.Carregando
 import br.edu.utfpr.trabalhofinal.ui.utils.composables.ErroAoCarregar
@@ -329,18 +331,32 @@ private fun FormContent(
                 enabled = !processando
             )
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Filled.AccountBalance,
-                contentDescription = stringResource(R.string.tipo),
-                tint = MaterialTheme.colorScheme.outline
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Start
+        ) {
+            val checkOptionsModifier = Modifier.padding(vertical = 8.dp)
+            Spacer(Modifier.size(25.dp))
+            FormRadioButton(
+                modifier = checkOptionsModifier,
+                titulo = stringResource(R.string.despesa),
+                valor = TipoContaEnum.DESPESA,
+                enabled = !processando,
+                onValueChanged = {
+                    onTipoAlterado(it.name)
+                },
+                valorGrupo = TipoContaEnum.valueOf(tipo.valor)
             )
-            FormTextField(
-                modifier = formTextFieldModifier,
-                titulo = stringResource(R.string.tipo),
-                campoFormulario = tipo,
-                onValorAlterado = onTipoAlterado,
-                enabled = !processando
+            FormRadioButton(
+                modifier = checkOptionsModifier,
+                titulo = stringResource(R.string.receita),
+                valor = TipoContaEnum.RECEITA,
+                enabled = !processando,
+                onValueChanged = {
+                    onTipoAlterado(it.name)
+                },
+                valorGrupo = TipoContaEnum.valueOf(tipo.valor)
             )
         }
     }
@@ -483,4 +499,26 @@ fun FormCheckbox(
         enabled = enabled
     )
     Text(titulo)
+}
+
+@Composable
+fun FormRadioButton(
+    modifier: Modifier = Modifier,
+    valor: TipoContaEnum,
+    valorGrupo: TipoContaEnum,
+    onValueChanged: (TipoContaEnum) -> Unit,
+    enabled: Boolean = true,
+    titulo: String
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        RadioButton(
+            selected = valor == valorGrupo,
+            onClick = { onValueChanged(valor) },
+            enabled = enabled
+        )
+        Text(titulo)
+    }
 }
