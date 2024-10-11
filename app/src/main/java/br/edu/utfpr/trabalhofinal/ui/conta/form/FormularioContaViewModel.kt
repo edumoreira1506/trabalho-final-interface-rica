@@ -61,6 +61,23 @@ class FormularioContaViewModel(
     } else {
         0
     }
+
+    private fun validarValor(valor: String): Int {
+        try {
+            BigDecimal(valor)
+
+            return if (valor.isBlank()) {
+                R.string.valor_invalido
+            } else {
+                0
+            }
+        } catch(e: Exception) {
+            println(e)
+
+            return R.string.valor_invalido
+        }
+    }
+
     fun onDataAlterada(novaData: String) {
         if (state.data.valor != novaData) {
             state = state.copy(
@@ -120,6 +137,9 @@ class FormularioContaViewModel(
         state = state.copy(
             descricao = state.descricao.copy(
                 codigoMensagemErro = validarDescricao(state.descricao.valor)
+            ),
+            valor = state.valor.copy(
+                codigoMensagemErro = validarValor(state.valor.valor)
             )
         )
         return state.formularioValido
