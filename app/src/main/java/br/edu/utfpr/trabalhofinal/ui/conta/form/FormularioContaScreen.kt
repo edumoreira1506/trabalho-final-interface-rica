@@ -1,6 +1,8 @@
 package br.edu.utfpr.trabalhofinal.ui.conta.form
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
@@ -19,6 +21,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -311,17 +314,18 @@ private fun FormContent(
                 enabled = !processando
             )
         }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Filled.Check,
-                contentDescription = stringResource(R.string.paga),
-                tint = MaterialTheme.colorScheme.outline
-            )
-            FormTextField(
-                modifier = formTextFieldModifier,
+        Row(
+            horizontalArrangement = Arrangement.Start,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(Modifier.size(25.dp))
+            FormCheckbox(
+                onValorAlterado = {
+                    onStatusPagamentoAlterado(it.toString())
+                },
                 titulo = stringResource(R.string.paga),
-                campoFormulario = paga,
-                onValorAlterado = onStatusPagamentoAlterado,
+                valor = paga.valor == true.toString(),
                 enabled = !processando
             )
         }
@@ -464,4 +468,19 @@ fun FormDatePicker(
             DatePicker(state = datePickerState)
         }
     }
+}
+
+@Composable
+fun FormCheckbox(
+    valor: Boolean,
+    onValorAlterado: (Boolean) -> Unit,
+    enabled: Boolean = true,
+    titulo: String
+) {
+    Checkbox(
+        checked = valor,
+        onCheckedChange = onValorAlterado,
+        enabled = enabled
+    )
+    Text(titulo)
 }
