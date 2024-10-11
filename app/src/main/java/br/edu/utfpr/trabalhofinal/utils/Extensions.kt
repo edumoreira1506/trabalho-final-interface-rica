@@ -32,3 +32,8 @@ fun LocalDate.formatar(): String {
     val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
     return format(formatter)
 }
+
+fun LocalDate.formatarAmericano(): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    return format(formatter)
+}

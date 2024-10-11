@@ -1,5 +1,9 @@
 package br.edu.utfpr.trabalhofinal.ui.conta.form
+import android.icu.util.LocaleData
 import br.edu.utfpr.trabalhofinal.data.Conta
+import br.edu.utfpr.trabalhofinal.utils.formatarAmericano
+import java.time.LocalDate
+
 data class CampoFormulario(
     val valor: String = "",
     val codigoMensagemErro: Int = 0
@@ -18,7 +22,9 @@ data class FormularioContaState(
     val contaPersistidaOuRemovida: Boolean = false,
     val codigoMensagem: Int = 0,
     val descricao: CampoFormulario = CampoFormulario(),
-    val data: CampoFormulario = CampoFormulario(),
+    val data: CampoFormulario = CampoFormulario(
+        valor = LocalDate.now().formatarAmericano()
+    ),
     val valor: CampoFormulario = CampoFormulario(),
     val paga: CampoFormulario = CampoFormulario(),
     val tipo: CampoFormulario = CampoFormulario()
