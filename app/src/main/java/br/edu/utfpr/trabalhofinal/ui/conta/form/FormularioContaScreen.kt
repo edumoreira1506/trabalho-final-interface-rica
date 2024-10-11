@@ -313,7 +313,8 @@ private fun FormContent(
                 titulo = stringResource(R.string.valor),
                 campoFormulario = valor,
                 onValorAlterado = onValorAlterado,
-                enabled = !processando
+                enabled = !processando,
+                keyboardType = KeyboardType.Decimal,
             )
         }
         Row(
